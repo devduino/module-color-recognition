@@ -115,9 +115,13 @@ namespace devduino {
 		uint16_t getClear();
 
 		/**
-		 * TODO
+		 * \brief Specify the reemit level of readed color.
+		 *
+		 * The reemission is done on LED using pins 9, 10 and 11.
+		 *
+		 * \param level The ratio of reemission compared to readed color.
 		 */
-		void setReemitLevel(uint8_t reemitLevel);
+		void setReemitLevel(uint8_t level);
 
 	private:
 		/**
@@ -143,7 +147,7 @@ namespace devduino {
 		/**
 		 * \brief Should color captured be reemited to module LED.
 		 */
-		uint8_t reemitLevel = 0;
+		float reemitLevel = 0;
 
 		/**
 		 * \brief Get the identifer of color sensor component.
@@ -159,6 +163,15 @@ namespace devduino {
 		 * \brief Get the color in front of sensor.
 		 */
 		uint16_t* getRGBC();
+
+		/**
+		 * \brief Reemit readed color on reemit led.
+		 *
+		 * \param red The red level to reemit.
+		 * \param green The green level to reemit.
+		 * \param blue The blue level to reemit.
+		 */
+		void reemit(uint8_t red, uint8_t green, uint8_t blue);
 	};
 } // namespace devduino
 

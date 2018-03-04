@@ -50,8 +50,8 @@ void setup()
   bool colorRecognitionState = colorRecognition.begin();
   console.println(String("Color recognition module state: ") + colorRecognitionState);
 
-  colorRecognition.setLightingLevel(64);
-  colorRecognition.setReemitLevel(64);
+  colorRecognition.setLightingLevel(32);
+  colorRecognition.setReemitLevel(255);
 }
 
 //Loop over program execution.

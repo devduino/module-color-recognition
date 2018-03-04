@@ -23,7 +23,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-//#include <board.h>
 
 #include "colorRecognition.h"
 
@@ -61,12 +60,15 @@ namespace devduino {
 
 		bool found = getIdRegister() == 0x44;
 
+		this->reemitLevel = 1.0f;
+		this->lightingLevel = 255;
+
+		reemit(0, 0, 0);
+
 		if (found) {
 			powerOn();
 		}
 
-		//console.println(String(getIdRegister()));
-		//console.println(String(getIdRegister() == (uint8_t) 0x44));
 		return found;
 	}
 
@@ -76,7 +78,6 @@ namespace devduino {
 
 	void ColorRecognition::read() {
 		//Switch on light.
-		//TODO: Ajuster en fonction de l'attribut lightingLevel.
 		digitalWrite(COLOR_RECOG_PIN_WHITE, lightingLevel);
 
 		//Get color.
@@ -85,10 +86,8 @@ namespace devduino {
 		//Switch off light.
 		digitalWrite(COLOR_RECOG_PIN_WHITE, LOW);
 
-		//TODO: Réduire en fonction du reemit level.
-		analogWrite(COLOR_RECOG_PIN_RED, getRed());
-		analogWrite(COLOR_RECOG_PIN_GREEN, getGreen());
-		analogWrite(COLOR_RECOG_PIN_BLUE, getBlue());
+		//Reemit color to led and reduce brightness by attribute "reemit level".
+		reemit(getRed() * reemitLevel, getGreen() * reemitLevel, getBlue() * reemitLevel);
 	}
 
 	uint16_t ColorRecognition::getRed() {
@@ -107,8 +106,9 @@ namespace devduino {
 		return clear;
 	}
 
-	void ColorRecognition::setReemitLevel(uint8_t reemitLevel) {
-		this->reemitLevel = reemitLevel;
+	void ColorRecognition::setReemitLevel(uint8_t level) {
+		//Because RGB readed are 16 bits but we reemit using 8 bits, we divide here by 16 bits instead of 8 (cf. method read()).
+		this->reemitLevel = ((float)level) / 65535.0f;
 	}
 
 	//------------------------------------------------------------------------//
@@ -150,6 +150,12 @@ namespace devduino {
 		blue |= (uint16_t)(Wire.read() << 8);
 
 		Wire.endTransmission();
+	}
+
+	void ColorRecognition::reemit(uint8_t red, uint8_t green, uint8_t blue) {
+		analogWrite(COLOR_RECOG_PIN_RED, 255 - red);
+		analogWrite(COLOR_RECOG_PIN_GREEN, 255 - green);
+		analogWrite(COLOR_RECOG_PIN_BLUE, 255 - blue);
 	}
 } // namespace devduino
 
