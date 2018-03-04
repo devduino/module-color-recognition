@@ -32,9 +32,12 @@
 //------------------------------------------------------------------------//
 #define TSC34725_I2C_ADDRESS 0x29
 
-#define TSC34725_COMMAND_SET_ENABLE_REGISTER 0xa0
-#define TSC34725_COMMAND_GET_ID_REGISTER 0xb2
-#define TSC34725_COMMAND_GET_RGBC_CHANNEL_DATA_REGISTER 0xb4
+#define TSC34725_COMMAND_SET_ENABLE_REGISTER 0x80				//Command bit | enable
+#define TSC34725_COMMAND_GET_ID_REGISTER 0x92					//Command bit | get id
+#define TSC34725_COMMAND_GET_RGBC_CHANNEL_DATA_REGISTER 0x94	//Command bit | get rgbc 
+
+#define TSC34725_PARAM_PON 1 //Power ON internal oscillators.
+#define TSC34725_PARAM_AEN 2 //Enable RGBC ;
 
 #define COLOR_RECOG_PIN_INT 1
 #define COLOR_RECOG_PIN_SDA 2
@@ -126,7 +129,7 @@ namespace devduino {
 	void ColorRecognition::powerOn() {
 		Wire.beginTransmission(TSC34725_I2C_ADDRESS);
 		Wire.write(TSC34725_COMMAND_SET_ENABLE_REGISTER);
-		Wire.write(0x03); //PON + AEN
+		Wire.write(TSC34725_PARAM_PON | TSC34725_PARAM_AEN); //PON + AEN
 		Wire.endTransmission();
 	}
 
