@@ -29,7 +29,7 @@
 /**
 * Default namespace for devduino related code.
 */
-namespace devduino {
+
 	/**
 	* \brief High level driver for COLOR_RECOGNITION of devduino.
 	*
@@ -37,7 +37,7 @@ namespace devduino {
 	*
 	* For more information on internal behavior, the color sensor datasheet for AMS TSC34725 is available <a href="http://ams.com/eng/Products/Light-Sensors/Color-Sensors/TCS34725" target="_blank">here</a>.
 	*/
-	class ColorRecognition {
+	class colorRecognition {
 	public:
 		/**
 		 * \brief Initialize color sensor module of DevDuino.
@@ -173,11 +173,11 @@ namespace devduino {
 		 */
 		void reemit(uint8_t red, uint8_t green, uint8_t blue);
 	};
-} // namespace devduino
+
 
 //Define global color sensor variable.
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_COLOR_RECOGNITION)
-extern devduino::ColorRecognition colorRecognition;
+//extern devduino::ColorRecognition colorRecognition;
 #endif
 
 #endif //DEVDUINO_MODULE_COLOR_RECOGNITION_H

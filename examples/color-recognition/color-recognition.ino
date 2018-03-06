@@ -22,20 +22,21 @@
 */
 
 //Include board with DevDuino components.
-#include <board.h>
+#include <devduino.h>
 #include <colorRecognition.h>
-
+#include <Wire.h>
 //DevDuino logo to display a splash screen before example.
 #include "devduinoSprite.h"
 
-//All classes of devduino are classified into namespace "devduino".
-using namespace devduino;
+ColorRecognition tcs = ColorRecognition();
+//Adafruit_TCS34725 tcs = Adafruit_TCS34725();
+
 
 //Initialize program.
 void setup()
 {
   //First thing to do is to initialize DevDuino board.
-  board.begin();
+  devduino.begin();
   
   //Draw splash screen to buffer.
   display.drawSprite(devduinoSprite, 37, 0);
@@ -47,23 +48,23 @@ void setup()
 
   console.clear();
 
-  bool colorRecognitionState = colorRecognition.begin();
+  bool colorRecognitionState = tcs.begin();
   console.println(String("Color recognition module state: ") + colorRecognitionState);
 
-  colorRecognition.setLightingLevel(32);
-  colorRecognition.setReemitLevel(255);
+  tcs.setLightingLevel(32);
+  tcs.setReemitLevel(255);
 }
 
 //Loop over program execution.
 void loop()
 {
-  colorRecognition.read();
+  tcs.read();
   
   //Get color from module.
-  uint8_t red = colorRecognition.getRed();
-  uint8_t green = colorRecognition.getGreen();
-  uint8_t blue = colorRecognition.getBlue();
-  uint8_t clear = colorRecognition.getClear();
+  uint8_t red = tcs.getRed();
+  uint8_t green = tcs.getGreen();
+  uint8_t blue = tcs.getBlue();
+  uint8_t clear = tcs.getClear();
   
   //Display color to console.
   console.println(String("Color: (Red/green/blue/clear) :") + red + "/" + green + "/" + blue + "/" + clear);
@@ -79,4 +80,3 @@ void loop()
   //No need to refresh quickly.
   delay(1000);
 }
-

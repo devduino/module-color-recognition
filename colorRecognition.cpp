@@ -46,7 +46,6 @@
 #define COLOR_RECOG_PIN_GREEN 10
 #define COLOR_RECOG_PIN_BLUE 11
 
-namespace devduino {
 	//------------------------------------------------------------------------//
 	//---------------------------- Public methods ----------------------------//
 	//------------------------------------------------------------------------//
@@ -157,8 +156,8 @@ namespace devduino {
 		analogWrite(COLOR_RECOG_PIN_GREEN, 255 - green);
 		analogWrite(COLOR_RECOG_PIN_BLUE, 255 - blue);
 	}
-} // namespace devduino
+
 
 #if !defined(NO_GLOBAL_INSTANCES) && !defined(NO_GLOBAL_COLOR_RECOGNITION)
-devduino::ColorRecognition colorRecognition;
+//devduino::ColorRecognition colorRecognition;
 #endif
